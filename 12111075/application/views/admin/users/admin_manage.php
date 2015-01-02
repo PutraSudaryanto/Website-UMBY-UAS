@@ -28,6 +28,7 @@
 						<td class="center"><?php echo $this->Utility->getPublish($val->enabled);?></td>
 						<td class="center"><?php echo $this->Utility->getPublish($val->verified);?></td>
 						<td class="button-column">
+							<?php echo anchor('admin/users/view/'.$val->user_id, 'View', 'title="View" class="view"');?>
 							<?php echo anchor('admin/users/edit/'.$val->user_id, 'Update', 'title="Update" class="update"');?>
 							<?php echo anchor('admin/users/delete/'.$val->user_id, 'Delete', 'title="Delete" class="delete"');?>
 						</td>

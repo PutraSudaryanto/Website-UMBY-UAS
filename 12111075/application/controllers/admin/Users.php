@@ -68,6 +68,25 @@ class Users extends CI_Controller
 		$this->_template('/admin/users/admin_manage', $data);
 	}
 
+	public function View($id)
+	{
+		if(!empty($id)) {
+			$data['content'] = $this->UsersModel->findByPk($id);
+			
+			$data['dialogDetail'] = true;
+			$data['dialogGroundUrl'] = site_url('admin/users/manage');
+			$data['dialogWidth'] = 450;
+			
+			$data['pageTitle'] = 'Detail User';
+			$data['pageDescription'] = '';
+			$data['pageMeta'] = '';
+			$this->_template('/admin/users/admin_view', $data);
+			
+		} else {
+			redirect('admin/users/manage');
+		}
+	}
+
 	public function Add()
 	{		
 		$data['form_action'] = 'admin/users/add';

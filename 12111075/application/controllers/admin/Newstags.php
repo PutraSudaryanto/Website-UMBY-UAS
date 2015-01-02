@@ -6,6 +6,9 @@ class Newstags extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('NewsTagsModel');
+		$this->load->model('NewsModel');
+		$this->load->model('NewsCategoryModel');
+		$this->load->model('TagsModel');
 	}
 	
 	function _template($view, $data=null)
@@ -40,6 +43,9 @@ class Newstags extends CI_Controller
 			'content' => $this->NewsTagsModel->findAll($config['per_page'], $offset),
 			'paging' => $this->pagination->create_links(),
 		);
+		$data['total_rows'] = $config['total_rows'];
+		$data['per_page'] = $config['per_page'];
+		$data['offset'] = $offset;
 		
 		/* contoh find all condition
 		$data['content'] = $this->NewsTagsModel->findAll(array(
