@@ -1,27 +1,61 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Home extends CI_Controller
+{
+	function __construct() 
+	{
+		parent::__construct();
+		$this->load->model('AdminUserModel');
+	}
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -  
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in 
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+	function _template($view, $data = NULL)
+	{
+		$data['content'] = $this->load->view($view, $data, true);
+		$this->load->view('template/admin_default', $data);
+	}
+	
 	public function index()
 	{
-		$this->load->view('/admin/home/front_index');
+		$data['pageTitle'] = 'Dashboard';
+		$data['pageDescription'] = '';
+		$data['pageMeta'] = '';
+		$this->_template('/admin/home/admin_index', $data);
+	}
+	
+	public function login()
+	{
+		if(isset($_POST['LoginFormAdmin'])) {
+			//print_r($_POST['LoginFormAdmin']);
+			$username = $_POST['LoginFormAdmin']['username'];
+			$password = $_POST['LoginFormAdmin']['password'];
+			
+			$result = $this->AdminUserModel->login($username, $password);
+			//print_r($result);
+			//exit();
+			if($result) {
+				$sess_array = array();
+				foreach($result as $key => $row) {
+					$sess_array[$key] = $row;
+				}
+				//print_r($sess_array);
+				$this->session->set_userdata('logged_in', $sess_array);
+				redirect('admin/home/index');
+			} else {
+				redirect('admin/home/login');
+			}
+		}
+		
+		$data['pageTitle'] = 'Masuk';
+		$data['pageDescription'] = '';
+		$data['pageMeta'] = '';
+		$this->_template('/admin/home/admin_login', $data);
+	}
+
+	public function logout()
+	{
+		//remove all session data
+		$this->session->unset_userdata('logged_in');
+		$this->session->sess_destroy();
+		redirect('admin/home/login');
 	}
 }
-
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
