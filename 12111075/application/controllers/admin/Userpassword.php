@@ -39,7 +39,7 @@ class Userpassword extends CI_Controller
 			$offset = $page;
 		
 		$data = array(
-			'content' => $this->UsersHistoryPasswordModel->findAll($config['per_page'], $offset),
+			'content' => $this->UsersHistoryPasswordModel->findAll(null, $config['per_page'], $offset),
 			'paging' => $this->pagination->create_links(),
 		);
 		$data['total_rows'] = $config['total_rows'];

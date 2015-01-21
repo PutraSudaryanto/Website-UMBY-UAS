@@ -92,7 +92,7 @@ echo form_open($form_action);?>
 			<div class="desc">
 				<?php
 				$password = '';
-				echo form_input(array(
+				echo form_password(array(
 					'name' => 'password',
 					'value' => $password,
 					'class'=> 'span-7',

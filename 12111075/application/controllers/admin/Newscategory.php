@@ -11,7 +11,6 @@ class Newscategory extends CI_Controller
 	function _template($view, $data=null)
 	{
 		$data['content'] = $this->load->view($view, $data, true);
-		$data['content'] = $this->load->view('layouts/admin_main', $data, true);
 		$this->load->view('layouts/admin_default', $data);
 	}
 
@@ -37,7 +36,7 @@ class Newscategory extends CI_Controller
 			$offset = $page;
 		
 		$data = array(
-			'content' => $this->NewsCategoryModel->findAll($config['per_page'], $offset),
+			'content' => $this->NewsCategoryModel->findAll(null, $config['per_page'], $offset),
 			'paging' => $this->pagination->create_links(),
 		);
 		$data['total_rows'] = $config['total_rows'];

@@ -40,7 +40,7 @@ class Newstags extends CI_Controller
 			$offset = $page;
 		
 		$data = array(
-			'content' => $this->NewsTagsModel->findAll($config['per_page'], $offset),
+			'content' => $this->NewsTagsModel->findAll(null, $config['per_page'], $offset),
 			'paging' => $this->pagination->create_links(),
 		);
 		$data['total_rows'] = $config['total_rows'];

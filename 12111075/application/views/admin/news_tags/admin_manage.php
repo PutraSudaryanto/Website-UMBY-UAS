@@ -21,7 +21,7 @@
 						echo $this->NewsCategoryModel->findByPk($cat_id)->cat_name;?></td>
 						<td><?php echo $this->NewsModel->findByPk($val->news_id)->news_title;?></td>
 						<td><?php echo $this->TagsModel->findByPk($val->tag_id)->tag_name;?></td>
-						<td><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>
+						<td><?php echo $this->Utility->dateFormat($val->creation_date);?></td>
 					</tr>
 				<?php }
 			} else {?>

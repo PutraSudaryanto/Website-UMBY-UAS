@@ -15,7 +15,7 @@
 					<tr>
 						<td><?php echo $i;?></td>
 						<td><?php echo $val->tag_name;?></td>
-						<td><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>
+						<td><?php echo $this->Utility->dateFormat($val->creation_date);?></td>
 					</tr>
 				<?php }
 			} else {?>

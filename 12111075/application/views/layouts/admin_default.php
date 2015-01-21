@@ -1,4 +1,11 @@
-<?php if(empty($dialogDetail)) {?>
+<?php 
+if(empty($this->session->userdata('logged_in')))
+	if($this->uri->segment(1).'/'.$this->uri->segment(2).'/'.$this->uri->segment(3) != 'admin/site/login')
+		redirect('admin/site/login');
+
+$session_data = $this->session->userdata('logged_in');
+	
+if(empty($dialogDetail)) {?>
 <?php } else {
 	if(empty($dialogWidth)) {?>
 	<?php } else {?>
@@ -35,6 +42,23 @@
   <style type="text/css"></style>
  </head>	
  <body <?php echo (!empty($dialogDetail)) ? 'style="overflow-y: hidden;"' : '';?>>
+ 
+	<?php if($this->uri->segment(1).'/'.$this->uri->segment(2).'/'.$this->uri->segment(3) == 'admin/site/login') {?>
+		<?php //begin.Notifier ?>
+		<div class="login notifier" <?php echo (!empty($dialogDetail) && !empty($dialogWidth)) ? 'name="'.$dialogWidth.'" '.$display : '';?>>
+			<div class="fixed">
+				<div class="valign">
+					<div class="dialog-box">
+						<img src="<?php echo base_url('public/logo_ommu_large.png') ?>" alt="">
+						<div class="content" id="<?php echo $dialogWidth;?>" name="notifier-wrapper"><?php echo (!empty($dialogDetail) && !empty($dialogWidth)) ? $content : '';?></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php //end.Notifier ?>
+		
+	<?php } else {?>
+ 
 	<?php //begin.Header ?>
 	<header></header>
 	<?php //end.Header ?>
@@ -70,11 +94,11 @@
 			<div class="table">
 				<?php //begin.Account ?>
 				<div class="account">
-					<a id="uplaod-image" class="photo" href="" title="Change Photo: Putra Sudaryanto"><img src="<?php echo $this->Utility->getTimThumb(base_url('assets/images/default.png'), 82, 82, 1);?>" alt="Ommu Platform"/></a>
+					<a id="uplaod-image" class="photo" href="" title="Change Photo: <?php echo $session_data['displayname'];?>"><img src="<?php echo $this->Utility->getTimThumb(base_url('assets/images/default.png'), 82, 82, 1);?>" alt="Ommu Platform"/></a>
 					<div class="info">
-						Welcome, <a href="" title="Edit Account: Putra Sudaryanto">Putra Sudaryanto</a>
-						<span>Last sign in : 30-12-2014</span>
-						<a class="signout" href="" title="Logout: Putra Sudaryanto">Logout</a>
+						Welcome, <a href="" title="Edit Account: <?php echo $session_data['displayname'];?>"><?php echo $session_data['displayname'];?></a>
+						<span>Last sign in : <?php echo $session_data['lastlogin_date'];?></span>
+						<a class="signout" href="<?php echo site_url('admin/site/logout')?>" title="Logout: <?php echo $session_data['displayname'];?>">Logout</a>
 					</div>
 				</div>
 				<?php //end.Account ?>
@@ -84,16 +108,20 @@
 					<?php //begin.Mainmenu ?>
 					<div class="mainmenu">
 						<ul>
+							<li <?php echo in_array($this->uri->segment(2), array('site')) ? 'class="active"' : ''?>><a href="<?php echo site_url('admin/site/index')?>" title="Dashboard">Dashboard</a></li>
 							<li <?php echo in_array($this->uri->segment(2), array('newscategory','news','newstags')) ? 'class="active"' : ''?>><a href="<?php echo site_url('admin/news/manage')?>" title="News">News</a></li>
 							<li <?php echo in_array($this->uri->segment(2), array('userlevel','users','userlogin','useremail','userpassword')) ? 'class="active"' : ''?>><a href="<?php echo site_url('admin/users/manage')?>" title="Users">Users</a></li>
 							<li <?php echo in_array($this->uri->segment(2), array('tags')) ? 'class="active"' : ''?>><a href="<?php echo site_url('admin/tags/manage')?>" title="Tags">Tags</a></li>
+							<li <?php echo in_array($this->uri->segment(2), array('contact')) ? 'class="active"' : ''?>><a href="<?php echo site_url('admin/contact/manage')?>" title="Contact">Contact</a></li>
 						</ul>
 					</div>
 					<?php //begin.Submenu ?>
 					<div class="submenu">
 						<h3>Mainmenu</h3>
 						<ul>
-							<?php if(in_array($this->uri->segment(2), array('newscategory','news','newstags'))) {?>
+							<?php if(in_array($this->uri->segment(2), array('site'))) {?>
+								<li <?php echo $this->uri->segment(2) == 'site' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/site/index')?>" title="Summary">Summary</a></li>
+							<?php } else if(in_array($this->uri->segment(2), array('newscategory','news','newstags'))) {?>
 								<li <?php echo $this->uri->segment(2) == 'news' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/news/manage')?>" title="News">News</a></li>
 								<li <?php echo $this->uri->segment(2) == 'newscategory' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/newscategory/manage')?>" title="Category">Category</a></li>
 								<li <?php echo $this->uri->segment(2) == 'newstags' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/newstags/manage')?>" title="News Tags">News Tags</a></li>
@@ -105,6 +133,8 @@
 								<li <?php echo $this->uri->segment(2) == 'userpassword' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/userpassword/manage')?>" title="History Cange Password">History Cange Password</a></li>
 							<?php } else if(in_array($this->uri->segment(2), array('tags'))) {?>
 								<li <?php echo $this->uri->segment(2) == 'tags' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/tags/manage')?>" title="Tags">Tags</a></li>
+							<?php } else if(in_array($this->uri->segment(2), array('contact'))) {?>
+								<li <?php echo $this->uri->segment(2) == 'contact' ? 'class="selected"' : '';?>><a href="<?php echo site_url('admin/contact/manage')?>" title="Tags">Contact</a></li>
 							<?php }?>
 						</ul>	
 					</div>
@@ -129,6 +159,7 @@
 		</div>
 	</footer>
 	<?php //end.Footer ?>
+	<?php }?>
 	
   <script type="text/javascript" src="<?php echo base_url('assets/js/jquery-2.1.3.min.js') ?>"></script>
   <script type="text/javascript" src="<?php echo base_url('assets/js/custom/custom.js') ?>"></script>

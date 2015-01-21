@@ -21,7 +21,7 @@
 						<td><?php echo $val->level_name;?></td>
 						<td><?php echo $val->level_desc;?></td>
 						<td><?php echo $val->user;?></td>
-						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>
+						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date);?></td>
 						<td class="center"><?php echo $this->Utility->getPublish($val->publish);?></td>
 						<td class="button-column">
 							<?php echo anchor('admin/userlevel/edit/'.$val->level_id, 'Update', 'title="Update" class="update"');?>

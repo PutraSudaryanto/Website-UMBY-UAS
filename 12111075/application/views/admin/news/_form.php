@@ -55,6 +55,7 @@ echo form_open_multipart($form_action);?>
 				<?php echo form_error('news_quote'); ?>
 			</div>
 		</div>
+		<?php /*
 		<div class="clearfix">
 			<?php echo form_label('Publish Date'); ?>
 			<div class="desc">
@@ -69,7 +70,6 @@ echo form_open_multipart($form_action);?>
 				<?php echo form_error('published_date'); ?>
 			</div>
 		</div>
-		<?php /*
 		<div class="clearfix">
 			<?php echo form_label('Photo'); ?>
 			<div class="desc">
@@ -90,7 +90,8 @@ echo form_open_multipart($form_action);?>
 					echo form_checkbox('Model[publish]', 1);?>
 				<?php echo form_error('publish'); ?>
 			</div>
-		</div>		
+		</div>
+		
 		<div class="clearfix">
 			<label></label>
 			<div class="desc">

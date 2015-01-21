@@ -9,7 +9,7 @@ class UsersModel extends CI_Model
 		$this->_table = '12111075_users';
 	}
 	
-	function findAll($limit=10, $offset=0, $condition=null)
+	function findAll($condition=null, $limit=null, $offset=null)
 	{
 		if($condition == null) {
 			//primary key
@@ -21,14 +21,21 @@ class UsersModel extends CI_Model
 			if(!empty($condition['condition']))
 				$this->db->where($condition['condition']);
 			//primary key
-			if(!empty($condition['order']))
+			if(empty($condition['order']))
 				$this->db->order_by('user_id', 'desc'); 
 			else {
 				foreach($condition['order'] as $key => $val)
 					$this->db->order_by($key, strtolower($val)); 
 			}
+			if(!empty($condition['like']))
+				$this->db->like($condition['like']); 
 		}
-		$this->db->limit($limit, $offset);
+		if($this->uri->segment(3) == 'manage' && $this->uri->segment(4) == null) {
+			$this->db->limit($limit, $offset);
+		} else {
+			if($limit != null && $offset != null)
+				$this->db->limit($limit, $offset);
+		}
 			
 		$model = $this->db->get($this->_table);
 		return $model->result();
@@ -41,7 +48,7 @@ class UsersModel extends CI_Model
 		if(!empty($condition['condition']))
 			$this->db->where($condition['condition']);
 		//primary key
-		if(!empty($condition['order']))
+		if(empty($condition['order']))
 			$this->db->order_by('user_id', 'desc'); 
 		else {
 			foreach($condition['order'] as $key => $val)
@@ -78,12 +85,17 @@ class UsersModel extends CI_Model
 		return $this->db->insert($this->_table, $data);
 	}
 	
-	function updateByPk($id)
+	function updateByPk($id, $attr)
 	{
-		$data = $_POST['Model'];
-		if($_POST['password'] != '') {
-			$salt = $this->findByPk($id)->salt;
-			$data['password'] = $this->hashPassword($salt, $_POST['password']);
+		if(!empty($attr)) {
+			foreach($attr as $key => $val)
+				$data[$key] = $val;
+		} else {
+			$data = $_POST['Model'];
+			if($_POST['password'] != '') {
+				$salt = $this->findByPk($id)->salt;
+				$data['password'] = $this->hashPassword($salt, $_POST['password']);
+			}
 		}
 		//primary key
 		$this->db->where('user_id', $id);
@@ -117,6 +129,32 @@ class UsersModel extends CI_Model
 	function hashPassword($salt, $password)
 	{
 		return md5($salt.$password);
+	}
+	
+	function login($email, $password) 
+	{
+		$user = $this->find(array(
+			'select' => 'user_id, email, salt',
+			'condition' => array(
+				'email' => $email,
+			),
+		));
+		if($user != null) {
+			$model = $this->find(array(
+				//'select' => 'publish',
+				'condition' => array(
+					'email' => $user->email,
+					'password' => $this->hashPassword($user->salt.$password),
+				),
+			));
+			if($model != null) {
+				return $model;
+			} else {
+				return false;
+			}		
+		} else {
+			return false;
+		}
 	}
 	
 }

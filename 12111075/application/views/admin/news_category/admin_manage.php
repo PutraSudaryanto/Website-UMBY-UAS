@@ -23,7 +23,7 @@
 						<td><?php echo $val->cat_name;?></td>
 						<td><?php echo $val->cat_desc;?></td>
 						<td class="center"><?php echo $val->news;?></td>
-						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>
+						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date);?></td>
 						<td class="center"><?php echo $this->Utility->getPublish($val->publish);?></td>
 						<td class="button-column">
 							<?php echo anchor('admin/newscategory/edit/'.$val->cat_id, 'Update', 'title="Update" class="update"');?>

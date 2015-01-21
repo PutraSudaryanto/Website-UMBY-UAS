@@ -24,7 +24,7 @@
 						<td><?php echo $val->displayname;?></td>
 						<td><?php echo $val->username;?></td>
 						<td><?php echo $val->email;?></td>
-						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>						
+						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date);?></td>						
 						<td class="center"><?php echo $this->Utility->getPublish($val->enabled);?></td>
 						<td class="center"><?php echo $this->Utility->getPublish($val->verified);?></td>
 						<td class="button-column">

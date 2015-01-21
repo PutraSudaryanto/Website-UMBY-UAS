@@ -17,7 +17,7 @@
 	</div>
 	
 <?php } else {?>
-	<div id="<?php echo $this->uri->segment(2);?>" class="<?php echo !empty($dialogWidth) ? 'boxed' : 'clearfix';?>">
+	<div id="<?php echo ($this->uri->segment(1).'/'.$this->uri->segment(2).'/'.$this->uri->segment(3) == 'admin/site/login') ? $this->uri->segment(3) : $this->uri->segment(2);?>" class="<?php echo !empty($dialogWidth) ? 'boxed' : 'clearfix';?>">
 		<?php if(!empty($dialogWidth)) {?>
 			<div class="dialog-header"><h1><?php echo $pageTitle;?></h1></div>
 		<?php }?>

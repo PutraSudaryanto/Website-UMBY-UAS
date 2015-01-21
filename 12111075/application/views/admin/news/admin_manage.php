@@ -25,7 +25,7 @@
 						<td><?php echo $val->news_photo;?></td>
 						<td class="center"><?php echo $val->view;?></td>
 						<td class="center"><?php echo $this->Utility->dateFormat($val->published_date);?></td>
-						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date, true);?></td>
+						<td class="center"><?php echo $this->Utility->dateFormat($val->creation_date);?></td>
 						<td class="center"><?php echo $this->Utility->getPublish($val->publish);?></td>
 						<td class="button-column">
 							<?php echo anchor('admin/news/view/'.$val->news_id, 'View', 'title="View" class="view"');?>

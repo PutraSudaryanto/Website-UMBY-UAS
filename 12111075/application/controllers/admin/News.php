@@ -38,7 +38,7 @@ class News extends CI_Controller
 			$offset = $page;
 		
 		$data = array(
-			'content' => $this->NewsModel->findAll($config['per_page'], $offset),
+			'content' => $this->NewsModel->findAll(null, $config['per_page'], $offset),
 			'paging' => $this->pagination->create_links(),
 		);
 		$data['total_rows'] = $config['total_rows'];

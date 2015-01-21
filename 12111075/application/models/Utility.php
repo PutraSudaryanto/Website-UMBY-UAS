@@ -15,11 +15,19 @@ class Utility extends CI_Model
 	/**
 	 * Get date format (general setting)
 	 */
-	public static function dateFormat($date, $time=false) {
+	public static function dateFormat($date, $type=null, $time=false) {
 		if($time == true) {
-			$date = date('j-m-Y', strtotime($date)).' '.date('H:i', strtotime($date));
-		} else{
-			$date = date('j-m-Y', strtotime($date));
+			if($type == null) {
+				$date = date('j-m-Y', strtotime($date)).' '.date('H:i', strtotime($date));
+			} else {
+				$date = date($type, strtotime($date)).' '.date('H:i', strtotime($date));
+			}
+		} else {
+			if($type == null) {
+				$date = date('j-m-Y', strtotime($date));
+			} else {
+				$date = date($type, strtotime($date));
+			}
 		}
 		return $date;
 	}
@@ -105,6 +113,15 @@ class Utility extends CI_Model
 		$image = base_url('timthumb.php?src=').$src.'&h='.$height.'&w='.$width.'&zc='.$zoom.'&a='.$crop;
         return $image;
     }
+
+    /**
+	 * shortText
+	 */
+	public static function shortText ($var, $len = 60, $dotted = "...") {
+		if (strlen ($var) < $len) { return $var; }
+		if (preg_match ("/(.{1,$len})\s/", $var, $match)) {  return $match [1] . $dotted;  }
+		else { return substr ($var, 0, $len) . $dotted; }
+	}
 	
 }
 ?>
